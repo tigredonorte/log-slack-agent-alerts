@@ -65,7 +65,13 @@ Deploy:
 ```bash
 terraform apply
 ```
-This creates all resources **except** the AgentCore Runtime.
+
+> ⚠️ **Expected Error:** This step will fail with an error like:
+> ```
+> Error: creating Bedrock AgentCore Agent Runtime
+> ValidationException: The specified image identifier does not exist in the repository
+> ```
+> **This is expected!** The AgentCore Runtime cannot be created until the Docker image exists in ECR. All other resources (ECR, Cognito, Memory, Gateway, etc.) are created successfully. Continue to Step 2 to build and push the image.
 
 ### Step 2: Build and Push Docker Image
 ```bash
