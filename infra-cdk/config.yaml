@@ -13,9 +13,9 @@ backend:
   # Your VPC must have the necessary VPC endpoints for AWS services.
   # See docs/DEPLOYMENT.md for the full list of required VPC endpoints.
   # vpc:
-  #   vpc_id: vpc-0f8ba75944c47874e
+  #   vpc_id: vpc-0abc1234def56789a
   #   subnet_ids:
-  #     - subnet-0cc003ad58698abe2
-  #     - subnet-0e4c45095d7998534
+  #     - subnet-aaaa1111bbbb2222c
+  #     - subnet-cccc3333dddd4444e
   #   security_group_ids:  # Optional - a default SG is created if omitted
   #     - sg-0abc1234def56789a
