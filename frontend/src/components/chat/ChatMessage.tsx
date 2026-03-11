@@ -14,7 +14,7 @@ interface ChatMessageProps {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function ChatMessage({ message, sessionId, onFeedbackSubmit }: ChatMessageProps) {
+export function ChatMessage({ message, sessionId: _sessionId, onFeedbackSubmit }: ChatMessageProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [selectedFeedbackType, setSelectedFeedbackType] = useState<"positive" | "negative">(
     "positive"
