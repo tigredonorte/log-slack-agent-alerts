@@ -13,7 +13,6 @@ interface ChatMessageProps {
   onFeedbackSubmit: (feedbackType: "positive" | "negative", comment: string) => Promise<void>
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function ChatMessage({
   message,
   sessionId: _sessionId,
