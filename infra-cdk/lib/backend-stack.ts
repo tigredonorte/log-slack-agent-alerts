@@ -123,6 +123,7 @@ export class BackendStack extends cdk.NestedStack {
     if (deploymentType === "zip") {
       // ZIP DEPLOYMENT: Use Lambda to package and upload to S3 (no Docker required)
       const repoRoot = path.resolve(__dirname, "..", "..")
+      // nosemgrep: javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal — pattern is from trusted local config.yaml, not user input
       const patternDir = path.join(repoRoot, "patterns", pattern)
 
       // Create S3 bucket for agent code

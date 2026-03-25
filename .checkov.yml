@@ -1,0 +1,7 @@
+# Checkov configuration for security scanning
+# Skip rules that are verified false positives in this repository
+skip-check:
+  # tj-actions/changed-files is pinned to commit ed68ef82c... which is v46.0.5 (post-fix for CVE-2025-30066).
+  # Checkov flags the action name regardless of the pinned commit hash.
+  - "GHSA-mrrh-fwg8-r2c3"  # tj-actions/changed-files supply chain compromise (patched in v46)
+  - "GHSA-mcph-m25j-8j63"  # tj-actions/changed-files related advisory (patched in v46)
