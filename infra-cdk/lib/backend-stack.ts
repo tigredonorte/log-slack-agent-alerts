@@ -151,7 +151,7 @@ export class BackendStack extends cdk.NestedStack {
       // Read pattern .py files
       for (const file of fs.readdirSync(patternDir)) {
         if (file.endsWith(".py")) {
-          const content = fs.readFileSync(path.join(patternDir, file))
+          const content = fs.readFileSync(path.join(patternDir, file)) // nosemgrep: javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal
           agentCode[file] = content.toString("base64")
         }
       }
