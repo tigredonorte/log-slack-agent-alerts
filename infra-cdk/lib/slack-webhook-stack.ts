@@ -58,6 +58,9 @@ export class SlackWebhookStack extends cdk.NestedStack {
   /** ARN of the Slack webhook Lambda function. */
   public readonly lambdaArn: string
 
+  /** The Lambda function construct — exposed so the main stack can grant invoke. */
+  public readonly lambdaFunction: lambda.Function
+
   constructor(scope: Construct, id: string, props: SlackWebhookStackProps) {
     super(scope, id, props)
 
@@ -69,9 +72,16 @@ export class SlackWebhookStack extends cdk.NestedStack {
       slackChannelWebhookUrl
     )
     this.lambdaArn = slackWebhookLambda.functionArn
+    this.lambdaFunction = slackWebhookLambda
 
-    // ── Grant Gateway role permission to invoke the Lambda ──────────────
-    slackWebhookLambda.grantInvoke(gatewayRole)
+    // ── Grant Gateway role permission via resource-based policy ─────────
+    // Uses a Lambda resource policy instead of modifying the IAM role to
+    // avoid circular cross-nested-stack references between this stack and
+    // BackendStack (which owns the gatewayRole).
+    slackWebhookLambda.addPermission("GatewayRoleInvoke", {
+      principal: new iam.ArnPrincipal(gatewayRole.roleArn),
+      action: "lambda:InvokeFunction",
+    })
 
     // ── Register as AgentCore Gateway target ────────────────────────────
     this.createGatewayTarget(gatewayId, slackWebhookLambda)

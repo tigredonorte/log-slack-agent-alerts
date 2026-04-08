@@ -90,12 +90,15 @@ def run_command(
     Returns:
         CompletedProcess instance with command results
     """
+    # On Windows, .cmd/.bat scripts (like npm.cmd) require shell=True or
+    # explicit .cmd extension. Using sys.platform check is the simplest fix.
+    use_shell = sys.platform == "win32"
     return subprocess.run(  # nosec B603 - command constructed from safe list
         command,
         capture_output=capture_output,
         text=True,
         check=check,
-        shell=False,
+        shell=use_shell,
         timeout=300,
         cwd=cwd,
     )
