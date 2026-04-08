@@ -35,6 +35,10 @@ export class BackendStack extends cdk.NestedStack {
   public feedbackApiUrl: string
   public runtimeArn: string
   public memoryArn: string
+  /** AgentCore Gateway identifier — used by other stacks to register additional targets. */
+  public gatewayId: string
+  /** IAM role used by the AgentCore Gateway — other stacks grant invoke to this role. */
+  public gatewayRole: iam.IRole
   private agentName: cdk.CfnParameter
   private userPool: cognito.IUserPool
   private machineClient: cognito.UserPoolClient
@@ -624,6 +628,9 @@ export class BackendStack extends cdk.NestedStack {
       description: "Role for AgentCore Gateway with comprehensive permissions",
     })
 
+    // Expose the gateway role so other stacks can grant Lambda invoke permissions
+    this.gatewayRole = gatewayRole
+
     // Lambda invoke permission
     toolLambda.grantInvoke(gatewayRole)
 
@@ -794,6 +801,9 @@ export class BackendStack extends cdk.NestedStack {
       },
       description: "AgentCore Gateway with MCP protocol and JWT authentication",
     })
+
+    // Expose the gateway identifier so other stacks can register additional targets
+    this.gatewayId = gateway.attrGatewayIdentifier
 
     // Create Gateway Target using L1 construct (CfnGatewayTarget)
     const gatewayTarget = new bedrockagentcore.CfnGatewayTarget(this, "GatewayTarget", {

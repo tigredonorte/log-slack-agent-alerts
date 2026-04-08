@@ -1,7 +1,7 @@
 [
   {
     "name": "slack_webhook_tool",
-    "description": "Sends a formatted message to a Slack channel via incoming webhook. The message includes error severity, application name, timestamp, error log text, CloudWatch log group link, and classification rationale.",
+    "description": "Sends a formatted message to a Slack channel via incoming webhook",
     "inputSchema": {
       "type": "object",
       "properties": {

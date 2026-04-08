@@ -26,6 +26,22 @@ export interface VpcConfig {
   security_group_ids?: string[]
 }
 
+/**
+ * Configuration for the EKS Log Alerts feature.
+ * All fields are optional in config.yaml — they can be overridden via
+ * environment variables at deploy time.
+ */
+export interface EksLogAlertsConfig {
+  /** Comma-separated CloudWatch log group names to monitor for errors. */
+  monitored_log_groups?: string
+  /** Minimum confidence score (0.0–1.0) for auto-classification. */
+  confidence_threshold?: string
+  /** Polling interval in seconds for CloudWatch log monitoring. */
+  log_poll_interval_seconds?: string
+  /** Bedrock model ID used by the Classification_Agent. */
+  classification_model_id?: string
+}
+
 export interface AppConfig {
   stack_name_base: string
   admin_user_email?: string | null
@@ -37,6 +53,8 @@ export interface AppConfig {
     /** VPC configuration. Required when network_mode is "VPC". */
     vpc?: VpcConfig
   }
+  /** EKS Log Alerts configuration — optional section. */
+  eks_log_alerts?: EksLogAlertsConfig
 }
 
 export class ConfigManager {
@@ -115,6 +133,7 @@ export class ConfigManager {
           network_mode: networkMode,
           vpc: vpcConfig,
         },
+        eks_log_alerts: parsedConfig.eks_log_alerts,
       }
     } catch (error) {
       throw new Error(`Failed to parse configuration file ${configPath}: ${error}`)

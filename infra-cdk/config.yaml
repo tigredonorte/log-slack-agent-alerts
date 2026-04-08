@@ -2,7 +2,7 @@ stack_name_base: FAST-stack
 
 # Optional: Set to automatically create an admin user and email credentials
 # If not provided, you'll need to manually create users via AWS Console
-admin_user_email: # Example: admin@example.com
+admin_user_email: thompson.filgueiras@umusic.com
 
 backend:
   pattern: strands-single-agent # See patterns/ for available options
@@ -25,3 +25,17 @@ backend:
   #     - subnet-cccc3333dddd4444e
   #   security_group_ids:  # Optional - a default SG is created if omitted
   #     - sg-0abc1234def56789a
+
+# EKS Log Alerts configuration
+# These values can also be overridden via environment variables:
+#   MONITORED_LOG_GROUPS, CONFIDENCE_THRESHOLD, LOG_POLL_INTERVAL_SECONDS,
+#   CLASSIFICATION_MODEL_ID, SLACK_CHANNEL_WEBHOOK_URL
+eks_log_alerts:
+  # Comma-separated CloudWatch log group names to monitor for errors
+  monitored_log_groups: "team5-eks-app-logs"
+  # Minimum confidence score (0.0–1.0) for auto-classification
+  confidence_threshold: "0.7"
+  # Polling interval in seconds for CloudWatch log monitoring
+  log_poll_interval_seconds: "30"
+  # Bedrock model ID used by the Classification_Agent
+  classification_model_id: "us.anthropic.claude-sonnet-4-20250514-v1:0"
